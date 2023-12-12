@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.http import JsonResponse
+
 from django.core.mail import send_mail
 from django.conf import settings
 
@@ -106,16 +107,44 @@ def processOrder(request):
 
     if total == order.get_cart_total:
         order.complete = True
-    order.save()
+        order.save()
 
-    if order.shipping == True:
-        ShippingAddress.objects.create(
-            customer=customer,
-            order=order,
-            address=data['shipping']['address'],
-            city=data['shipping']['city'],
-            state=data['shipping']['state'],
-            zipcode=data['shipping']['zipcode'],
-        )
+        if order.shipping == True:
+            ShippingAddress.objects.create(
+                customer=customer,
+                order=order,
+                address=data['shipping']['address'],
+                city=data['shipping']['city'],
+                state=data['shipping']['state'],
+                zipcode=data['shipping']['zipcode'],
+            )
+    
+    # Recopilar detalles de los productos comprados
+    items = order.orderitem_set.all()  # Asegúrate de tener una relación inversa configurada en el modelo OrderItem
+    productos = '\n'.join([f'{item.product.name} (Cantidad: {item.quantity})' for item in items])
+
+    domicilio = f"{data['shipping']['address']}, {data['shipping']['city']}, {data['shipping']['state']}\n{data['shipping']['zipcode']}"
+
+    # Enviar correo electrónico después de procesar el pedido
+    enviar_correo_compra(data['form']['name'], data['form']['email'], total, productos, domicilio)
 
     return JsonResponse('Payment complete!', safe=False)
+
+
+def enviar_correo_compra(nombre, email, total, lista_productos, domicilio):
+    asunto = 'Confirmación de compra'
+    mensaje = f"""Hola {nombre},
+
+    Gracias por tu compra de ${total}. 
+
+    Detalles de la Orden:
+    {lista_productos}
+
+    Domicilio de entrega:
+    {domicilio}
+
+    Tu orden ha sido procesada exitosamente.
+    """
+    email_from = settings.EMAIL_HOST_USER
+    recipient_list = [email]
+    send_mail(asunto, mensaje, email_from, recipient_list)
