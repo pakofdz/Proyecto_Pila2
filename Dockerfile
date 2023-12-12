@@ -2,7 +2,11 @@ FROM python:3.12.1-alpine3.19
 
 ENV PYTHONUNBUFFERED=1
 
-WORKDIR /app
+WORKDIR /code
+
+RUN apk update && python3 && apk add postgresql-dev && apk add build-base
+
+RUN pip install psycopg2-binary
 
 COPY ./requirements.txt ./
 
