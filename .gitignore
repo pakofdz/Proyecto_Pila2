@@ -1,4 +1,5 @@
 .venv
 venv
 django
-__pycache__/
+store/__pycache__/
+ecommerce/__pycache__/
