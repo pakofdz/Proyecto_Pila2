@@ -1,7 +1,37 @@
 {% extends 'store/main.html' %}
 {% load static %}
 {% block content %}
-<div class="row">
-    <a href="#">RATES</a>
+<div class="row col-lg-6 ">
+    <div class="box-element cont-rt">
+        <hr>
+        <h3>Reseña</h3>
+        <hr>
+        <form>
+            {% csrf_token %}
+            <div id="rate-info">
+                <div class="form-field">
+                    <input required class="form-control" type="text" name="titulo" placeholder="Titulo de la reseña...">
+                </div>
+                <div class="form-field">
+                    <input required class="form-control" type="text" name="descripcion" placeholder="Descripcion de la reseña...">
+                </div>
+                <div class="input-group mb-3">
+                    <label class="input-group-text" for="inputGroupSelect01">Calificacion</label>
+                    <select class="form-select" id="inputGroupSelect01">
+                      <option selected></option>
+                      <option value="1">    ⭐</option>
+                      <option value="2">   ⭐⭐</option>
+                      <option value="3">  ⭐⭐⭐</option>
+                      <option value="4"> ⭐⭐⭐⭐</option>
+                      <option value="5">⭐⭐⭐⭐⭐</option>
+                    </select>
+                </div>
+                <div class="form-field">
+                    <input type="file" class="form-control" id="inputGroupFile04" aria-describedby="inputGroupFileAddon04" aria-label="Upload">
+                    <button class="btn btn-outline-secondary" type="button" id="inputGroupFileAddon04">Button</button>
+                  </div>
+            </div>
+        </form>
+    </div>
 </div>
 {% endblock content %}
