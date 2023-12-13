@@ -97,15 +97,19 @@ def processOrder(request):
     if request.user.is_authenticated:
         customer = request.user.customer
         order, created = Order.objects.get_or_create(customer=customer, complete=False)
-        
+        name = customer.name
+        email = customer.email
 
     else:
         customer, order = guestOrder(request, data)
+        name = data['form']['name']
+        email = data['form']['email']
+
 
     total = float(data['form']['total'])
     order.transaction_id =  transaction_id
-
-    if total == order.get_cart_total:
+    
+    if total == float(order.get_cart_total):
         order.complete = True
         order.save()
 
@@ -126,7 +130,7 @@ def processOrder(request):
     domicilio = f"{data['shipping']['address']}, {data['shipping']['city']}, {data['shipping']['state']}\n{data['shipping']['zipcode']}"
 
     # Enviar correo electrónico después de procesar el pedido
-    enviar_correo_compra(data['form']['name'], data['form']['email'], total, productos, domicilio)
+    enviar_correo_compra(name, email, total, productos, domicilio)
 
     return JsonResponse('Payment complete!', safe=False)
 
