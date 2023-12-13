@@ -8,9 +8,39 @@
         <div class="box-element product">
             <h6><strong>{{product.name}}</strong></h6>
             <hr>
-            <button data-product={{product.id}} data-action="add" class="btn btn-outline-secondary add-btn update-cart">Añadir al carrito</button>
-            <a class="btn btn-outline-success" href="#">Vista</a>
+            <button data-product={{product.id}} data-action="add"
+                class="btn btn-outline-secondary add-btn update-cart">Añadir al carrito</button>
+            <a class="btn btn-outline-success" href="#" data-toggle="modal"
+                data-target="#productViewModal{{ product.id }}">Vista</a>
             <h4 style="display: inline-block;float: right">${{product.price|floatformat:2}}</h4>
+        </div>
+    </div>
+    {% endfor %}
+
+    {% for product in products %}
+    <!-- Modal -->
+    <div class="modal fade" id="productViewModal{{ product.id }}" tabindex="-1" role="dialog"
+        aria-labelledby="productViewModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="productViewModalLabel">{{ product.name }}</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <img src="{{ product.imageURL }}" class="img-fluid" alt="{{ product.name }}">
+                    <p>{{ product.description }}</p>
+                    <!-- Aquí puedes agregar más detalles del producto si lo deseas -->
+                </div>
+                <div class="modal-footer">
+                    <h4>${{ product.price | floatformat:2 }}</h4>
+                    <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Cerrar</button>
+                    <button data-product={{ product.id }} data-action="add"
+                        class="btn btn-outline-success add-btn update-cart">Añadir al carrito</button>
+                </div>
+            </div>
         </div>
     </div>
     {% endfor %}
