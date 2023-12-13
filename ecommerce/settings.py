@@ -77,8 +77,12 @@ WSGI_APPLICATION = 'ecommerce.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'ecomdjango',
+        'USER': 'postgres',
+        'PASSWORD': 'teclaguna',
+        'HOST': 'localhost', # o la dirección del servidor de tu base de datos
+        'PORT': '', # Deja en blanco para el puerto predeterminado
     }
 }
 

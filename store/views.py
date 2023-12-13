@@ -105,19 +105,22 @@ def processOrder(request):
     total = float(data['form']['total'])
     order.transaction_id =  transaction_id
 
-    if total == order.get_cart_total:
+    if round(total, 2) == round(order.get_cart_total, 2):
         order.complete = True
         order.save()
 
-        if order.shipping == True:
-            ShippingAddress.objects.create(
-                customer=customer,
-                order=order,
-                address=data['shipping']['address'],
-                city=data['shipping']['city'],
-                state=data['shipping']['state'],
-                zipcode=data['shipping']['zipcode'],
-            )
+        try:
+            if order.shipping == True:
+                ShippingAddress.objects.create(
+                    customer=customer,
+                    order=order,
+                    address=data['shipping']['address'],
+                    city=data['shipping']['city'],
+                    state=data['shipping']['state'],
+                    zipcode=data['shipping']['zipcode'],
+                    )
+        except Exception as e:
+            print(f'Error al crear la dirección de envío: {e}')
     
     # Recopilar detalles de los productos comprados
     items = order.orderitem_set.all()  # Asegúrate de tener una relación inversa configurada en el modelo OrderItem
