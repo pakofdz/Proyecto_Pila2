@@ -1,14 +1,12 @@
 from django.shortcuts import render
 from django.http import JsonResponse
-
 from django.core.mail import send_mail
 from django.conf import settings
-
 import json
 import datetime
-
 from .models import *
 from .utils import cookieCart, cartData, guestOrder
+from django.contrib import messages
 
 # Create your views here.
 def store(request):
@@ -49,15 +47,6 @@ def rates(request):
 
     context = {'items':items, 'order':order, 'cartItems':cartItems}
     return render(request, 'store/rates.html', context)
-
-def login(request):
-    data = cartData(request)
-    cartItems = data['cartItems']
-    order = data['order']
-    items = data['items']
-
-    context = {'items':items, 'order':order, 'cartItems':cartItems}
-    return render(request, 'store/login.html', context)
 
 
 def updateItem(request):

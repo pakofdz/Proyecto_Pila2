@@ -1,0 +1,17 @@
+<html>
+    <title>Registrar nuevo usuario</title>
+    <head>
+        {% if form.errors %}
+        <p>Ocurrió un error</p>
+        {% endif %}
+
+        <h1>Registrarse</h1>
+    </head>
+
+    <form action="{% url 'register' %}" method="POST">{% csrf_token %}
+        
+          {{form.as_p}}
+
+        <input type="submit" value="ENVIAR" class="btn btn-secondary">
+    </form>
+</html>

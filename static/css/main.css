@@ -29,6 +29,12 @@ h1,h2,h3,h4,h5,h6{
 	background-color: #4f868c!important;
 }
 
+.btn-text-color {
+    color: #FFFFFF;
+	border-radius: 50%;
+}
+
+
 #cart-icon{
 	width:25px;
 	display: inline-block;

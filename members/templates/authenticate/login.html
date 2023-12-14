@@ -1,0 +1,41 @@
+{% extends 'store/main.html' %}
+{% load static %}
+
+{% block content %}
+<style>
+    .vertical-center {
+        min-height: 80vh;
+        display: flex;
+        align-items: center;
+    }
+</style>
+
+<div class="vertical-center">
+    <div class="col-md-6 col-md-offset-4 box-element">
+        <h2>Login</h2>
+        {% if messages %}
+            {% for message in messages %}
+                <label style="color: red;">{{ message }}</label>
+            {% endfor %}
+        {% endif %}
+        <form method="post" action="#">
+            {% csrf_token %}
+            <div class="form-field">
+                <div class="form-field">
+                    <label for="id_username">Usuario</label>
+                    <input type="text" id="id_username" name="username" class="form-control" required>
+                </div>
+                <div class="form-field">
+                    <label for="id_password">Contraseña</label>
+                    <input type="password" id="id_password" name="password" class="form-control" required>
+                </div>
+                <hr>
+                <button type="submit" class="btn btn-warning btn-text-color "><strong>Iniciar sesión</strong></button>
+                <p>¿Aún no tienes cuenta?</p>
+                <a class="nav-link" href="{% url 'register' %}">Regístrate</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+{% endblock content %}
