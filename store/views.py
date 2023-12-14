@@ -1,14 +1,18 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import JsonResponse
-
 from django.core.mail import send_mail
 from django.conf import settings
-
 import json
 import datetime
-
 from .models import *
 from .utils import cookieCart, cartData, guestOrder
+
+
+from django.contrib.auth import authenticate, login, logout
+from django.contrib import messages
+from django.contrib.auth.forms import UserCreationForm 
+from django.contrib.auth.models import User
+from .forms import Registrar_usuario_email 
 
 # Create your views here.
 def store(request):
@@ -50,14 +54,61 @@ def rates(request):
     context = {'items':items, 'order':order, 'cartItems':cartItems}
     return render(request, 'store/rates.html', context)
 
-def login(request):
-    data = cartData(request)
-    cartItems = data['cartItems']
-    order = data['order']
-    items = data['items']
 
-    context = {'items':items, 'order':order, 'cartItems':cartItems}
-    return render(request, 'store/login.html', context)
+def login_usuario(request):
+    if request.method == "POST":
+        username = request.POST['username']
+        password = request.POST.get("pasword")
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            login(request, user)
+            return redirect('store')
+        else:
+            return redirect('login')
+    else:
+        return redirect('login') 
+
+def logout_usuario(request):
+    logout(request)
+    return redirect('login')
+
+def registrar_usuario(request):
+    if request.method == "POST":
+        form = Registrar_usuario_email(request.POST)
+        if form.is_valid():
+            name = request.POST['username']
+            firstname = request.POST['first_name']
+            lastname = request.POST['last_name']
+            email = request.POST['email']
+            password = request.POST['password1']
+            password2 = request.POST['password2']
+
+            if password == password2:
+                if User.objects.filter(email=email).exists():
+                    messages.info(request, 'Email alredy exists')
+                    return redirect('register')
+                elif User.objects.filter(username=name).exists():
+                    messages.info(request, 'This username is alredy taken')
+                    return redirect('register')
+                else:
+                    user = User.objects.create_user(username=name, first_name=firstname, last_name=lastname, email=email, password=password)
+                    user.save()
+
+                    user_model = User.objects.get(username=name)
+                    new_customer = Customer.objects.create(user=user_model, name=name, email=email)
+                    new_customer.save()
+
+                    user_auth = authenticate(username=name, password=password)
+                    login(request, user_auth)
+                    return redirect('store')
+            else:
+                messages.info(request, 'Passwords do not match') 
+                return redirect('register')      
+
+            
+    else:
+        form = Registrar_usuario_email()
+        return render(request, 'store/user_register.html', {"form":form})
 
 
 def updateItem(request):
