@@ -50,6 +50,13 @@ def rates(request):
     context = {'items':items, 'order':order, 'cartItems':cartItems}
     return render(request, 'store/rates.html', context)
 
+def list_rates(request):
+    return render(request, 'rates.html')
+
+def create_rates(request):
+    print(request.POST[])
+    
+
 def login(request):
     data = cartData(request)
     cartItems = data['cartItems']

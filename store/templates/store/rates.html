@@ -1,23 +1,23 @@
 {% extends 'store/main.html' %}
 {% load static %}
 {% block content %}
-<div class="row col-lg-6 ">
-    <div class="box-element cont-rt">
+<div class=" d-flex justify-compose-center">
+    <div class="box-element mt-5 ">
         <hr>
-        <h3>Reseña</h3>
+        <h3>Reseñas y comentarios</h3>
         <hr>
-        <form>
+        <form >
             {% csrf_token %}
-            <div id="rate-info">
-                <div class="form-field">
-                    <input required class="form-control" type="text" name="titulo" placeholder="Titulo de la reseña...">
+            <div id="rate-info" class="row">
+                <div class="form-field col-9 mx-2 mb-3">
+                    <input required class="form-control" type="text" name="title" placeholder="Titulo de la reseña...">
                 </div>
-                <div class="form-field">
-                    <input required class="form-control" type="text" name="descripcion" placeholder="Descripcion de la reseña...">
+                <div class="form-field col-9 mx-2 mb-3">
+                    <input required class="form-control" type="text" name="description" placeholder="Descripcion de la reseña...">
                 </div>
-                <div class="input-group mb-3">
+                <div class="form-field col-5 mx-2 mb-3">
                     <label class="input-group-text" for="inputGroupSelect01">Calificacion</label>
-                    <select class="form-select" id="inputGroupSelect01">
+                    <select required id="form-select" id="inputGroupSelect01" name="rate">
                       <option selected></option>
                       <option value="1">    ⭐</option>
                       <option value="2">   ⭐⭐</option>
@@ -26,11 +26,14 @@
                       <option value="5">⭐⭐⭐⭐⭐</option>
                     </select>
                 </div>
-                <div class="form-field">
-                    <input type="file" class="form-control" id="inputGroupFile04" aria-describedby="inputGroupFileAddon04" aria-label="Upload">
-                    <button class="btn btn-outline-secondary" type="button" id="inputGroupFileAddon04">Button</button>
-                  </div>
+                <div class="form-field col-9 mb-3 mx-2">
+                    <input type="file" class="form-control" id="inputGroupFile04" name="imageRate">
+                </div>
             </div>
+            <hr>
+                <div class=" col">
+                    <input id="form-button" class="btn btn-success btn-success" type="submit" value="Continuar">
+                </div>
         </form>
     </div>
 </div>
