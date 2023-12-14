@@ -11,6 +11,6 @@ class Registrar_usuario_email(UserCreationForm):
         model = User
         fields = UserCreationForm.Meta.fields + ('first_name', 'last_name', 'email')
 
-    def _init_(self, *args, **kwargs):
-        super()._init_(*args, **kwargs)
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
         self.fields['username'].label = 'Usuario'
