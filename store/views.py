@@ -50,15 +50,6 @@ def rates(request):
     context = {'items':items, 'order':order, 'cartItems':cartItems}
     return render(request, 'store/rates.html', context)
 
-def login(request):
-    data = cartData(request)
-    cartItems = data['cartItems']
-    order = data['order']
-    items = data['items']
-
-    context = {'items':items, 'order':order, 'cartItems':cartItems}
-    return render(request, 'store/login.html', context)
-
 
 def updateItem(request):
     data = json.loads(request.body)
