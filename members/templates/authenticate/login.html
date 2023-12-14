@@ -1,5 +1,6 @@
 {% extends 'store/main.html' %}
 {% load static %}
+{% load socialaccount %}
 
 {% block content %}
 <style>
@@ -29,12 +30,20 @@
                     <label for="id_password">Contraseña</label>
                     <input type="password" id="id_password" name="password" class="form-control" required>
                 </div>
-                <hr>
-                <button type="submit" class="btn btn-warning btn-text-color "><strong>Iniciar sesión</strong></button>
-                <p>¿Aún no tienes cuenta?</p>
-                <a class="nav-link" href="{% url 'register' %}">Regístrate</a>
+                <button style="margin-top:10px;" type="submit" class="btn btn-warning btn-text-color "><strong>Iniciar sesión</strong></button>
             </div>
         </form>
+        <hr color='lightgray'>
+        <div>
+            <a href="{% provider_login_url 'github' %}">
+                <button style="margin:10px; background:#22252C; color:white;" ><strong>Iniciar sesión con GitHub</strong></button>
+            </a>
+        </div>
+        <hr color='lightgray'>
+        <div>
+        ¿Aún no tienes cuenta?
+            <a class="nav-link" href="{% url 'register' %}">Regístrate</a>
+        </div>
     </div>
 </div>
 
