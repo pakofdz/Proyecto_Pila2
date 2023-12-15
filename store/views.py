@@ -50,13 +50,18 @@ def rates(request):
 
 
 def create_rates(request):
+    if request.user.is_authenticated:
+        user = request.user
+    else:
+        user = None  # O manejar usuarios anónimos de otra manera
+
     if 'imageRate' in request.FILES:
         image_rate = request.FILES['imageRate']
     else:
         image_rate = None
 
     rate = Rates(
-        user=request.user,
+        user=user,
         title=request.POST['title'],
         description=request.POST['description'],
         rate=request.POST['rate'],
@@ -64,6 +69,7 @@ def create_rates(request):
     )
     rate.save()
     return redirect('/rates/')
+
 
 def updateItem(request):
     data = json.loads(request.body)
