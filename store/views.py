@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import JsonResponse
 from django.core.mail import send_mail
 from django.conf import settings
@@ -48,6 +48,17 @@ def rates(request):
     context = {'items':items, 'order':order, 'cartItems':cartItems}
     return render(request, 'store/rates.html', context)
 
+def list_rates(request):
+    return render(request, 'rates.html')
+
+def create_rates(request):
+   rates = Rates(user = request.user,
+          title = request.POST['title'], 
+          description = request.POST['description'], 
+          rate = request.POST['rate'], 
+          imageRate = request.POST['imageRate'])
+   rates.save()
+   return redirect('/rates/')
 
 def updateItem(request):
     data = json.loads(request.body)

@@ -80,3 +80,13 @@ class ShippingAddress(models.Model):
     def __str__(self):
         return self.address
     
+
+class Rates(models.Model):
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null=True)
+    title = models.CharField(max_length=200, null=True)
+    description = models.CharField(max_length=400, null=True)
+    rate = models.IntegerField(default=0, null=True, blank=True)
+    imageRate = models.ImageField(upload_to="evidencias" ,null=True)
+
+    def __str__(self):
+        return self.title
