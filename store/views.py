@@ -49,15 +49,17 @@ def rates(request):
     return render(request, 'store/rates.html', context)
 
 def list_rates(request):
-    return render(request, 'rates.html')
+    rates = Rates.objects.all()
+    print(rates)
+    return render(request, 'store/rates.html',{"rates": rates })
 
 def create_rates(request):
-   rates = Rates(user = request.user,
+   rate = Rates(user = request.user,
           title = request.POST['title'], 
           description = request.POST['description'], 
           rate = request.POST['rate'], 
           imageRate = request.POST['imageRate'])
-   rates.save()
+   rate.save()
    return redirect('/rates/')
 
 def updateItem(request):
