@@ -1,0 +1,55 @@
+{% extends 'store/main.html' %}
+{% load static %}
+{% load socialaccount %}
+
+{% block content %}
+<style>
+    .vertical-center {
+        min-height: 80vh;
+        display: flex;
+        align-items: center;
+    }
+</style>
+
+<div class="vertical-center">
+    <div class="col-md-6 col-md-offset-4 box-element">
+        <h2>Login</h2>
+        <form method="post" action="#">
+            {% csrf_token %}
+            <div class="form-field">
+                <div class="form-field">
+                    <label for="id_username">Usuario</label>
+                    <input type="text" id="id_username" name="username" class="form-control" required>
+                </div>
+                <div class="form-field">
+                    <label for="id_password">Contraseña</label>
+                    <input type="password" id="id_password" name="password" class="form-control" required>
+                </div>
+                <button style="margin-top:10px;" type="submit" class="btn btn-warning btn-text-color "><strong>Iniciar sesión</strong></button>
+            </div>
+        </form>
+        <hr color='lightgray'>
+        <div>
+            <a href="{% provider_login_url 'google' %}">
+                <button style="margin:10px; background:red; color:white;" ><strong>Iniciar sesión con Google</strong></button>
+            </a>
+        </div>
+        <div>
+            <a href="{% provider_login_url 'facebook' %}">
+                <button style="margin:10px; background:#3b5998; color:white;" ><strong>Iniciar sesión con Facebook</strong></button>
+            </a>
+        </div>
+        <div>
+            <a href="{% provider_login_url 'github' %}">
+                <button style="margin:10px; background:#22252C; color:white;" ><strong>Iniciar sesión con GitHub</strong></button>
+            </a>
+        </div>
+        <hr color='lightgray'>
+        <div>
+            ¿Aún no tienes cuenta?
+            <a class="nav-link" href="{% url 'register' %}">Regístrate</a>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}
