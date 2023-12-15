@@ -6,7 +6,7 @@
         <hr>
         <h3>Reseñas y comentarios</h3>
         <hr>
-        <form >
+        <form action="{% url 'create_rates' %}" method="POST" >
             {% csrf_token %}
             <div id="rate-info" class="row">
                 <div class="form-field col-9 mx-2 mb-3">
@@ -29,11 +29,11 @@
                 <div class="form-field col-9 mb-3 mx-2">
                     <input type="file" class="form-control" id="inputGroupFile04" name="imageRate">
                 </div>
-            </div>
-            <hr>
-                <div class=" col">
+                
+                <div class=" col-9">
                     <input id="form-button" class="btn btn-success btn-success" type="submit" value="Continuar">
                 </div>
+            </div>
         </form>
     </div>
 </div>

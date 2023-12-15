@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import JsonResponse
 
 from django.core.mail import send_mail
@@ -54,8 +54,14 @@ def list_rates(request):
     return render(request, 'rates.html')
 
 def create_rates(request):
-    print(request.POST[])
-    
+   rates = Rates(user = request.user,
+          title = request.POST['title'], 
+          description = request.POST['description'], 
+          rate = request.POST['rate'], 
+          imageRate = request.POST['imageRate'])
+   rates.save()
+   return redirect('/rates/')
+
 
 def login(request):
     data = cartData(request)
