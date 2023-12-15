@@ -54,10 +54,10 @@ def register_user(request):
                     login(request, user_auth)
                     return redirect('store')
             else:
-                messages.info(request, 'Passwords do not match') 
+                messages.add_message(request, messages.INFO, 'Passwords do not match')
                 return redirect('register')
         else:
-            return HttpResponse({form})
+            return render(request, 'authenticate/register.html', {'form': form})
     else:
         form = Registrar_usuario_email()
         return render(request, 'authenticate/user_register.html', {"form":form})
