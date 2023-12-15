@@ -1,0 +1,86 @@
+{% extends 'store/main.html' %}
+{% load static %}
+
+{% block content %}
+
+<style>
+    .vertical-center {
+        min-height: 80vh;
+        display: flex;
+        align-items: center;
+    }
+</style>
+
+<div class="vertical-center">
+    <div class="col-md-6 col-md-offset-4 box-element">
+        <h2>Sign Up</h2>
+        <form method="post" action="{% url 'register' %}">
+            {% csrf_token %}
+            <div class="form-field">
+                <div class="form-field">
+                    <label for="id_username">Usuario</label>
+                    <input type="text" id="id_username" name="username" class="form-control" required>
+                    {% if form.username.errors %}
+                    {% for error in form.username.errors %}
+                    <div style="color: red;">{{ error }}</div>
+                    {% endfor %}
+                    {% endif %}
+
+                </div>
+
+                <div class="form-field">
+                    <label for="id_first_name">Nombre</label>
+                    <input type="text" id="id_first_name" name="first_name" class="form-control" required>
+                </div>
+
+                <div class="form-field">
+                    <label for="id_last_name">Apellido</label>
+                    <input type="text" id="id_last_name" name="last_name" class="form-control" required>
+                </div>
+
+                <div class="form-field">
+                    <label for="id_email">Email</label>
+                    <input type="text" id="id_email" name="email" class="form-control" required>
+                    {% if form.email.errors %}
+                    {% for error in form.email.errors %}
+                    <p style="color: red;">{{ error }}</p>
+                    {% endfor %}
+                    {% endif %}
+                </div>
+
+                <div class="form-field">
+                    <label for="id_password1">Contraseña</label>
+                    <input type="password" id="id_password1" name="password1" class="form-control" required
+                        title="La contraseña debe tener al menos 8 caracteres y no puede ser una contraseña común o completamente numérica.">
+                    <small id="passwordHelpBlock" class="form-text text-muted">
+                        Tu contraseña debe tener:
+                        <ul>
+                            <li>Al menos 8 caracteres de longitud</li>
+                            <li>No ser similar a tu información personal</li>
+                            <li>No ser una contraseña comúnmente usada</li>
+                            <li>No ser completamente numérica</li>
+                        </ul>
+                    </small>
+                    {% if form.password1.errors %}
+                    {% for error in form.password1.errors %}
+                    <div style="color: red;">{{ error }}</div>
+                    {% endfor %}
+                    {% endif %}
+                </div>
+
+                <div class="form-field">
+                    <label for="id_password2">Repetir contraseña</label>
+                    <input type="password" id="id_password2" name="password2" class="form-control" required>
+                    {% if form.password2.errors %}
+                    <p style="color: red;">{{ form.password2.errors.as_text }}</p>
+                    {% endif %}
+                </div>
+
+                <hr>
+                <button type="submit" class="btn btn-warning btn-text-color "><strong>Registrarse</strong></button>
+            </div>
+        </form>
+    </div>
+</div>
+
+{% endblock content %}

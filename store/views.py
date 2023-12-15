@@ -1,14 +1,12 @@
 from django.shortcuts import render, redirect
 from django.http import JsonResponse
-
 from django.core.mail import send_mail
 from django.conf import settings
-
 import json
 import datetime
-
 from .models import *
 from .utils import cookieCart, cartData, guestOrder
+from django.contrib import messages
 
 # Create your views here.
 def store(request):
@@ -62,17 +60,6 @@ def create_rates(request):
    rates.save()
    return redirect('/rates/')
 
-
-def login(request):
-    data = cartData(request)
-    cartItems = data['cartItems']
-    order = data['order']
-    items = data['items']
-
-    context = {'items':items, 'order':order, 'cartItems':cartItems}
-    return render(request, 'store/login.html', context)
-
-
 def updateItem(request):
     data = json.loads(request.body)
     productId = data['productId']
@@ -110,15 +97,19 @@ def processOrder(request):
     if request.user.is_authenticated:
         customer = request.user.customer
         order, created = Order.objects.get_or_create(customer=customer, complete=False)
-        
+        name = customer.name
+        email = customer.email
 
     else:
         customer, order = guestOrder(request, data)
+        name = data['form']['name']
+        email = data['form']['email']
+
 
     total = float(data['form']['total'])
     order.transaction_id =  transaction_id
-
-    if total == order.get_cart_total:
+    
+    if total == float(order.get_cart_total):
         order.complete = True
         order.save()
 
@@ -139,7 +130,7 @@ def processOrder(request):
     domicilio = f"{data['shipping']['address']}, {data['shipping']['city']}, {data['shipping']['state']}\n{data['shipping']['zipcode']}"
 
     # Enviar correo electrónico después de procesar el pedido
-    enviar_correo_compra(data['form']['name'], data['form']['email'], total, productos, domicilio)
+    enviar_correo_compra(name, email, total, productos, domicilio)
 
     return JsonResponse('Payment complete!', safe=False)
 
