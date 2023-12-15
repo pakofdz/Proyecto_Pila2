@@ -6,35 +6,66 @@
         <hr>
         <h3>Reseñas y comentarios</h3>
         <hr>
-        <form action="{% url 'create_rates' %}" method="POST" >
+        <form action="{% url 'create_rates' %}" method="POST" enctype="multipart/form-data">
             {% csrf_token %}
             <div id="rate-info" class="row">
                 <div class="form-field col-9 mx-2 mb-3">
                     <input required class="form-control" type="text" name="title" placeholder="Titulo de la reseña...">
                 </div>
                 <div class="form-field col-9 mx-2 mb-3">
-                    <input required class="form-control" type="text" name="description" placeholder="Descripcion de la reseña...">
+                    <input required class="form-control" type="text" name="description"
+                        placeholder="Descripcion de la reseña...">
                 </div>
                 <div class="form-field col-5 mx-2 mb-3">
                     <label class="input-group-text" for="inputGroupSelect01">Calificacion</label>
-                    <select required id="form-select" id="inputGroupSelect01" name="rate">
-                      <option selected></option>
-                      <option value="1">    ⭐</option>
-                      <option value="2">   ⭐⭐</option>
-                      <option value="3">  ⭐⭐⭐</option>
-                      <option value="4"> ⭐⭐⭐⭐</option>
-                      <option value="5">⭐⭐⭐⭐⭐</option>
+                    <select required id="form-select" name="rate">
+                        <option selected></option>
+                        <option value="1"> ⭐</option>
+                        <option value="2"> ⭐⭐</option>
+                        <option value="3"> ⭐⭐⭐</option>
+                        <option value="4"> ⭐⭐⭐⭐</option>
+                        <option value="5">⭐⭐⭐⭐⭐</option>
                     </select>
                 </div>
                 <div class="form-field col-9 mb-3 mx-2">
-                    <input type="file" class="form-control" id="inputGroupFile04" name="imageRate">
+                    <input type="file" class="form-control" name="imageRate">
                 </div>
-                
+
                 <div class=" col-9">
-                    <input id="form-button" class="btn btn-success btn-success" type="submit" value="Continuar">
+                    <input class="btn btn-success btn-success" type="submit" value="Continuar">
                 </div>
+
             </div>
         </form>
     </div>
 </div>
+<div>
+    <div class="">
+        {% if rates %}
+        <h1>Reseñas</h1>
+        {% else %}
+        <h1>No hay Reseñas</h1>
+        {% endif %}
+        <p>Total de Reseñas: {{ rates|length }}</p>
+    </div>
+
+    <div style=" word-wrap: break-word ;">
+        {% for rate in rates %}
+        <div class="box-element mb-3">
+            <h4>Titulo: {{ rate.title }}</h4>
+            <h5>Creado por: {{rate.user}}</h5>
+            <p>Descripcion{{ rate.description }}</p>
+            <p>Estrellas: {{ rate.rate }}</p>
+            {% if rate.imageRate %}
+            <img src="{{rate.imageRate.url}}" style="height: 50px; width: 50px;" alt="...">
+            {% else %}
+            <img src="" style="height: 50px; width: 50px;" alt="Sin imagen">
+            {% endif %}
+        </div>
+        {% endfor %}
+    </div>
+
+</div>
+
+
 {% endblock content %}
