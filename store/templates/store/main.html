@@ -106,7 +106,12 @@
 
     <div class="container">
         {% block content %}
-
+        
+        {% if messages %}
+            {% for message in messages %}
+                <label style="color: red;">{{ message }}</label>
+            {% endfor %}
+        {% endif %}
 
         {% endblock content %}
     </div>

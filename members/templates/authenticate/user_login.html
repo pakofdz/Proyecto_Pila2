@@ -14,11 +14,6 @@
 <div class="vertical-center">
     <div class="col-md-6 col-md-offset-4 box-element">
         <h2>Login</h2>
-        {% if messages %}
-            {% for message in messages %}
-                <label style="color: red;">{{ message }}</label>
-            {% endfor %}
-        {% endif %}
         <form method="post" action="#">
             {% csrf_token %}
             <div class="form-field">
@@ -35,13 +30,23 @@
         </form>
         <hr color='lightgray'>
         <div>
+            <a href="{% provider_login_url 'google' %}">
+                <button style="margin:10px; background:red; color:white;" ><strong>Iniciar sesión con Google</strong></button>
+            </a>
+        </div>
+        <div>
+            <a href="{% provider_login_url 'facebook' %}">
+                <button style="margin:10px; background:#3b5998; color:white;" ><strong>Iniciar sesión con Facebook</strong></button>
+            </a>
+        </div>
+        <div>
             <a href="{% provider_login_url 'github' %}">
                 <button style="margin:10px; background:#22252C; color:white;" ><strong>Iniciar sesión con GitHub</strong></button>
             </a>
         </div>
         <hr color='lightgray'>
         <div>
-        ¿Aún no tienes cuenta?
+            ¿Aún no tienes cuenta?
             <a class="nav-link" href="{% url 'register' %}">Regístrate</a>
         </div>
     </div>

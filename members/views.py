@@ -21,7 +21,7 @@ def login_user(request):
             messages.success(request, ("Usuario o contraseña incorrecto, intente nuevamente..."))
             return redirect('login')
     else:
-        return render(request, 'authenticate/login.html', {})
+        return render(request, 'authenticate/user_login.html', {})
     
 def logout_user(request):
     logout(request)
@@ -50,10 +50,6 @@ def register_user(request):
                     user = User.objects.create_user(username=name, first_name=firstname, last_name=lastname, email=email, password=password)
                     user.save()
 
-                    user_model = User.objects.get(username=name)
-                    new_customer = Customer.objects.create(user=user_model, name=name, email=email)
-                    new_customer.save()
-
                     user_auth = authenticate(username=name, password=password)
                     login(request, user_auth)
                     return redirect('store')
@@ -64,5 +60,5 @@ def register_user(request):
             return HttpResponse({form})
     else:
         form = Registrar_usuario_email()
-        return render(request, 'authenticate/register.html', {"form":form})
+        return render(request, 'authenticate/user_register.html', {"form":form})
 
