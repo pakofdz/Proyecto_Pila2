@@ -18,7 +18,7 @@ def login_user(request):
             # Redirect to a success page.
             return redirect('store')
         else:
-            messages.success(request, ("Usuario o contraseña incorrecto, intente nuevamente..."))
+            messages.error(request, ("Usuario o contraseña incorrecto, intente nuevamente..."))
             return redirect('login')
     else:
         return render(request, 'authenticate/user_login.html', {})
@@ -57,7 +57,7 @@ def register_user(request):
                 messages.add_message(request, messages.INFO, 'Passwords do not match')
                 return redirect('register')
         else:
-            return render(request, 'authenticate/register.html', {'form': form})
+            return render(request, 'authenticate/user_register.html', {'form': form})
     else:
         form = Registrar_usuario_email()
         return render(request, 'authenticate/user_register.html', {"form":form})
