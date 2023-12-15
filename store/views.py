@@ -57,7 +57,7 @@ def updateItem(request):
     print('Action: ', action)
     print('productId: ', productId)
 
-    user = request.user.user
+    user = request.user
     product = Product.objects.get(id=productId)
     order, created = Order.objects.get_or_create(user=user, complete=False)
 
@@ -84,9 +84,9 @@ def processOrder(request):
     data = json.loads(request.body)
 
     if request.user.is_authenticated:
-        user = request.user.user
-        order, created = Order.objects.get_or_create(user=user, complete=False)
-        name = user.name
+        user = request.user
+        order, created = Order.objects.get_or_create(user=user, complete=True)
+        name = user.first_name + " " + user.last_name
         email = user.email
 
     else:
