@@ -44,23 +44,26 @@ def rates(request):
     cartItems = data['cartItems']
     order = data['order']
     items = data['items']
-
-    context = {'items':items, 'order':order, 'cartItems':cartItems}
+    rates = Rates.objects.all()
+    context = {'items':items, 'order':order, 'cartItems':cartItems, 'rates':rates}
     return render(request, 'store/rates.html', context)
 
-def list_rates(request):
-    rates = Rates.objects.all()
-    print(rates)
-    return render(request, 'store/rates.html',{"rates": rates })
 
 def create_rates(request):
-   rate = Rates(user = request.user,
-          title = request.POST['title'], 
-          description = request.POST['description'], 
-          rate = request.POST['rate'], 
-          imageRate = request.POST['imageRate'])
-   rate.save()
-   return redirect('/rates/')
+    if 'imageRate' in request.FILES:
+        image_rate = request.FILES['imageRate']
+    else:
+        image_rate = None
+
+    rate = Rates(
+        user=request.user,
+        title=request.POST['title'],
+        description=request.POST['description'],
+        rate=request.POST['rate'],
+        imageRate=image_rate
+    )
+    rate.save()
+    return redirect('/rates/')
 
 def updateItem(request):
     data = json.loads(request.body)
