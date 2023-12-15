@@ -4,6 +4,7 @@
 
 <head>
     <title>Xamazor</title>
+    <link rel="icon" type="image/x-icon" href="static\images\favicon.ico">
 
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
         integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
@@ -71,12 +72,14 @@
 <body>
 
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <a class="navbar-brand" href="{% url 'store' %}">Xamazor</a>
+        <a class="navbar-brand" href="{% url 'store' %}">
+            <img src='/static/images/xamazor.png' width="30" height="30" class="d-inline-block align-top" alt="">
+            Xamazor
+        </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item active">
@@ -106,7 +109,12 @@
 
     <div class="container">
         {% block content %}
-
+        
+        {% if messages %}
+            {% for message in messages %}
+                <label style="color: red;">{{ message }}</label>
+            {% endfor %}
+        {% endif %}
 
         {% endblock content %}
     </div>

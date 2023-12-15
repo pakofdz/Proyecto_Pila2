@@ -6,6 +6,5 @@ __pycache__/
 db.sqlite3
 data/
 data
-evidencias/
 store/migrations/
 members/migrations/

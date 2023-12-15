@@ -73,9 +73,9 @@ def updateItem(request):
     print('Action: ', action)
     print('productId: ', productId)
 
-    customer = request.user.customer
+    user = request.user
     product = Product.objects.get(id=productId)
-    order, created = Order.objects.get_or_create(customer=customer, complete=False)
+    order, created = Order.objects.get_or_create(user=user, complete=False)
 
     orderItem, created = OrderItem.objects.get_or_create(order=order, product=product)
 
@@ -100,13 +100,13 @@ def processOrder(request):
     data = json.loads(request.body)
 
     if request.user.is_authenticated:
-        customer = request.user.customer
-        order, created = Order.objects.get_or_create(customer=customer, complete=False)
-        name = customer.name
-        email = customer.email
+        user = request.user
+        order, created = Order.objects.get_or_create(user=user, complete=True)
+        name = user.first_name + " " + user.last_name
+        email = user.email
 
     else:
-        customer, order = guestOrder(request, data)
+        user, order = guestOrder(request, data)
         name = data['form']['name']
         email = data['form']['email']
 
@@ -120,7 +120,7 @@ def processOrder(request):
 
         if order.shipping == True:
             ShippingAddress.objects.create(
-                customer=customer,
+                user=user,
                 order=order,
                 address=data['shipping']['address'],
                 city=data['shipping']['city'],
